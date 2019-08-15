@@ -1,0 +1,12 @@
+﻿To register a domain:
+
+1. Open http://biocomputeobject.org/tst/registry.html.
+
+2. Enter a domain. (Empty search will prompt the user to enter a domain)
+
+3. Press ENTER or click the search button. (Spaces are removed)
+
+4.      a. If the domain has already been registered, it will notify the user. Click the ‘Return to Search’ button to return to the search page.
+   	b. If the domain has not already been registered, it will ask the user for an email. Enter your email and click ‘Register’ to register the domain. A popup will appear to confirm the registration, then the page redirects to the search page.
+
+5. The user will receive an email confirming the registration of the domain.

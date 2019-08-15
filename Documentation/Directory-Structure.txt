@@ -1,0 +1,65 @@
+﻿File Structure Document
+
+
+Main folder with rest of site’s HTML
+
+registry.html - html file for the registry page
+* Search bar/button goes to searchResults.php. 
+
+
+searchResults.php - php file to call resultsFunc.php in an html page
+* Uses php/resultsFunc.php to display the page based on the searched term.
+
+
+insertDomain.php - php file to call insertFunc.php in an html page.
+* Calls insertFunc.php using the user-submitted parameters from registerDomain.php.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+PHP subdirectory
+
+php/resultsFunc.php - php file to display search results
+* Uses connect.php to connect to the database.
+* If search bar was empty, redirects to registry.html and asks for input.
+* If searched domain already exists, notifies the user and uses returnToSearch.php to create a button to take the user back to the search page.
+* If searched domain does not already exist, includes registerDomain.php and returnToSearch.php.
+
+
+php/registerDomain.php - php file to echo an html form for registration of a domain by a user
+* Goes to insertDomain.php upon submission of the form.
+
+
+php/returnToSearch.php
+* Creates html button that redirects to registry.html.
+
+
+php/insertFunc.php
+* Uses connect.php to connect to the database.
+* Inserts the requested domain into the database.
+* Sends an email to the email address used to register the domain and to a fixed biocompute.org email address. Currently hadley_king@gwu.edu.
+* Redirects to registry.html.
+
+
+php/connect.php - php file to connect to the database
+* Establishes a mySQLi connection to the database for querying.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+CSS subdirectory
+
+css/registrystyle.css - css file for styling the search page
+* Styles the search bar and button to look nice
+
+
+css/fonts.css - css file for controlling fonts on the page
+* Shared with rest of site
+
+
+css/bco.css - css file for the header
+* Shared with rest of site
+
+
+css/w3.css - w3 template for css
+* Shared with rest of site

@@ -1,0 +1,1 @@
+This is the GitHub page for the BioCompute Registry.
