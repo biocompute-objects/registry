@@ -20,6 +20,7 @@ div.linkdiv_crcl {
   border:0px solid red;
 }
 
+div.linkdiv_rect {
   position:absolute;
   background-image: radial-gradient(closest-side, #5fa70a, #fff);opacity:0.0;
   border:0px solid red;
