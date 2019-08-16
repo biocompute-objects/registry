@@ -1,0 +1,200 @@
+﻿7/15/19:
+I will be working mainly on the registry for biocompute.
+We’ve decided to switch from Python and Django/Flask to using NodeJS and its MySQL driver.
+Need to figure out how to get those onto the server once I get credentials to log in.
+References:
+	https://nodejs.org/en/
+	https://www.w3schools.com/nodejs/nodejs_mysql.asp
+Installed NodeJS on personal computer
+Credentials received, but no files in server found the files 
+Trying to get access to the mySQL database before writing anything
+To install Node.js:
+	https://github.com/nodesource/distributions/blob/master/README.md#rpminstall
+	curl -sL https://rpm.nodesource.com/setup_12.x | bash - needed sudo
+	curl -sL https://rpm.nodesource.com/setup_12.x | sudo bash -
+Once node.js is installed, you can use 'npm install mysql' to install the mysql driver to query to database
+Can query the database from there
+Sent to Keeney for installation on test server
+Spent rest of the day trying to get Node.js to interface with a database on personal computer
+Tomorrow: plan to create a js script to interface with the database if Node.js has been installed on the server
+
+7/16/19
+To Do:
+Get Node and its mysql package on server
+Get Node to connect to mysql
+Get Node to query mysql in the way we want, probably just SELECT (for retrieving from table) and INSERT INTO (for adding domains to table) for now
+Connect Node.js scripts to search page
+Create “results” / “add domain” web pages
+Node.js is not on the server yet, will start looking at how to stop the search bar from contracting. (Michael probably knows how to do that since he made it do that in the first place.)
+Created file called nodeTest.js nodeConnect.js in the js folder, currently it only prints “Connected” if it can connect to the mysql server. 
+Node is on the server, just waiting on the mysql package for node now. Unfortunately, still can’t test the nodeTest.js without the mysql package for Node. Once it is installed, I will try to get the connection working. After that I will test out various queries on the database through the script.
+Basic connection script works!
+References: 
+	https://www.w3schools.com/nodejs/nodejs_mysql_insert.asp 
+	https://www.w3schools.com/sql/sql_ref_keywords.asp
+Script to display domains and emails works! (No character limit currently, will probably be limited by the search bar on the web page if possible)
+	“node nodeConnect.js dom” returns all domains starting with ‘dom’
+	“node nodeConnect.js man” returns all domains starting with ‘man’ → man.com
+	“node nodeConnect.js domainf” returns all domains starting with ‘domainf’ → domainfour.com and domainfive.com
+Renamed nodeTest.js to nodeConnect.js, still in the ‘js’ folder.
+Created nodeInsert.js for inserting new domains into tables if not already there.
+Using INSERT IGNORE does not seem to work, looking for a different solution.
+Thinking of using ALTER TABLE to make domain UNIQUE - should stop duplicates. I will wait for tomorrow when Michael is back to discuss.
+nodeInsert.js is NOT FINISHED (as of 7/16/19 1:33 PM) and will not work, if anyone is reading this. I’m going to ask Michael and Keeney about making the domain/email unique to prevent duplicates from being inserted into the table instead of checking on each insert.
+Working on how we’d be able to connect these javascript files to the HTML of the search page. I don’t have very much experience with HTML so progress is slow. I will ask Michael about it tomorrow if I haven’t figured something out by then.
+	https://stackoverflow.com/questions/26494855/use-html-search-bar-input-to-call-javascript-function
+
+7/17/19
+Finished the Insert script!
+Next step is integrating the scripts into HTML
+HTML is not happy.
+Figured out that the main problem is probably not importing/declaring the scripts inside the HTML properly.
+
+7/18/19
+Going to try and figure out why the HTML doesn’t want to load the scripts into the page.
+Turns out the require() function does not work on browsers without a module, going to research which modules would work best with Node and HTML.
+Asked Keeney to install Browserify on the server to allow require() to work in the browser. http://browserify.org/
+While waiting for that, going to research how to get the results of the mySQL into an HTML table instead of just console.log()
+Final product described: A webpage where the user can search a 5-character string, the function will query the database and return whether that string already exists in the database. If it does exist, tell the user that it already exists and return to search. If it does not exist, allow user to enter their email and register the domain in the database.
+Having a LOT of trouble getting the script to run on click. I have gotten it to run on load, but not on button click so far.
+Thinking that it might not be as simple to connect HTML→Node→mySQL as we were thinking, might end up using PHP
+
+7/19/19
+Going to get PHP and mySQLi onto the server
+Working on PHP scripts to connect to mySQL database, can’t really test until we get PHP onto the server
+Researching how to hide php scripts / login credentials from the user, think we have to get Keeney to specify which files can’t be seen, not sure yet.
+Keeney has gotten PHP onto the server but it needs to be restarted before we can run PHP through the browser. Hopefully it will be reset before 2:15.
+It was not, should be up by Tuesday though.
+
+
+7/23/19
+PHP is up and working on the server and runs through the browser. Now time to create the PHP scripts to connect / display info from the database.
+Script to take in user input and display which domains on the server match works.
+Do we want to use AJAX? Will ask Michael tomorrow.
+I have it working such that if no related domains are found, the user can press a button that redirects to another php script. This will be the one to insert the domain into the database in the future.
+
+7/24/19
+Insert page is up and running.
+TODO:
+	Make pages look nice.
+	Write documents detailing how to use website. (should be simple)
+	Write documents detailing how to maintain website. (switch DBs, give access, etc.)
+	Clean / restart the DB to have actual information instead of test info.
+What should form do when no info is entered?
+Working on form validation using JS / PHP to prevent registering with no email.
+Problems:
+	Reloading the confirmation page will resubmit to DB
+	Fixed, confirmation page is now an alert and redirects you to the search page
+	Prevent duplicates from entering DB
+	Prevent form fields being submitted empty
+
+7/25/19
+Fixed form resubmission problems - now redirects on submission.
+Any page reached without the buttons will boot back to search page.
+TODO
+	Ask about case sensitivity
+	Ask about alphanumeric-ness of domains.
+	Fix spaces working
+		Fixed, spaces are removed when form inputs are validated
+	Validate actual email addresses using regex (?)
+		Did it using the built-in html feature type=”email”
+	Plan to talk to Keeney about what else he would want for the website.
+Features
+	Show FDA1, FDA2, 5 examples
+	Keep it to alphanumeric
+	Case sensitivity - all lower - sanitization
+	Styling
+	Wider bar
+	More centered
+	Documentation of how the pages are set up / how to properly use them
+	User guide
+	Email length limit?
+
+7/26/19
+Show FDA1, FDA2, 5 examples
+Keep it to alphanumeric
+Case sensitivity - all lower - sanitization
+
+7/29/19
+Weekly scrum
+Last week
+	Finished functionality of the BCO registry site, have to work on making it look better
+This week
+	Work on making the site look better and fit in with the rest of the website
+	Work on switching to the right databases / cleaning the databases
+Converts all search text to lowercase as part of the sanitization.
+Going to work on getting the 5 closest results to show up.
+Drew small flowchart for asking about how Keeney wants the website to ask.
+If FDA1, FDA2, and FDA3 are in the DB, what happens when the user searches:
+FDA, FDA1, F, FAD
+
+7/30/19
+Asked Keeney about some last features he wants for the website.
+DB: FDA, FDA1
+If a user searches FDA, it should say that FDA is taken and suggest 1FDA and FDA2 if they’re available. If not, suggest next available numeric.
+
+7/31/19
+Starting work on how to implement search suggestions.
+Search database:
+Thinking that I’d need a separate query each time to check for FDA, then to check if 1FDA and FDA1 are available. (3 queries? 2 maybe)
+Will get really weird if it has to query every time to check if the next FDA# is available
+Not efficient
+Query 1: Check if exact match exists.
+Query 2: Check if there exists #dom# 
+https://www.w3schools.com/sql/sql_wildcards.asp
+Use []
+Should it start with FDA0 or FDA1
+How should FDA9 → FDA0 / FDA10 work?
+How should 9FDA → 10FDA? 0FDA?
+Recommend results:
+Problem: If user searches FDA1, how to get it to recommend FDA2 and not FDA11.
+Something to separate the #dom# into #, dom, #.
+The pre# != post#.
+Query to check %dom%, see if %dom% is a number, see if %dom% is a number, then find the next lowest number?
+IF ABCDE is in DB, domain BCD is available, but searching BCD with %dom% without checking for starting or ending with #s
+Should the pre/post numbers care about the 5 character limit?
+ABCDE is in DB, should it recommend 1ABCDE or ABCDE1?
+Do not suggest anything for 5 character strings
+We could have a separate column in the table to differentiate entries, but that’s not quite the same thing as what’s being asked. 
+Subdomains?
+Will ask Keeney
+I might be overthinking this, Keeney was thinking of appending a 1 to the front/end or something simpler like that. Still might need 2 queries per pageload which might be bad.
+New plan:
+Check if query exists / if its 5 characters long
+If it does, check if appending something would make a unique tag - 2nd query?
+See if it can be done it in 1 query.
+“Suggest” next available domain name
+
+8/2/19
+Thinking of implementing this:
+Grab all things that start with the query
+Check for direct match 
+If exists, display only direct match
+If not exists, ask if they want to register
+Check all grabbed things for matches with query#
+Turned the register-domain into a separate php function that can be called anywhere
+
+8/5/19
+Weekly scrum
+Last Week: 
+	Worked on getting a suggestion system in place for the BCO registry
+	Tried some things on how to make the registry site fit in better with the rest of the website
+	Populated the registry with claimed domains
+This week: 
+	Clean up suggestion system
+	Come up with a meaningful registry url
+Working on reverting site to before I messed everything around trying to get suggestions to work, going to write out exactly how it should work to reduce confusion.
+Ask about sending an email when a domain is registered
+	Will work on that tomorrow
+
+8/7/19
+Email functionality working
+Sends an email to whichever mail you used to register
+From noreply@biocomputeobject.org
+Going to focus on working on BCO since presentation is a week from today.
+Gotta change the search bar to be wider and more centered in the screen (moved up).
+
+8/15/19
+Copied all registry site files to GitHub for future version control
+https://github.com/biocompute-objects/registry
+Fixed documentation for the site
